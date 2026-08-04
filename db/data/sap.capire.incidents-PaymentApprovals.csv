@@ -1,0 +1,5 @@
+ID,customer_ID,transactionId,amount,currency,paymentStatus,approvalStatus,approverName,approvalDate,notes
+pay00001-0000-0000-0000-000000000001,1004155,TXN-984210,14500.00,USD,Paid,Approved,Robert Vance,2026-07-15T10:30:00Z,Annual license fee payment approved.
+pay00001-0000-0000-0000-000000000002,1004155,TXN-984255,8200.50,USD,Paid,Approved,Robert Vance,2026-08-01T14:15:00Z,Additional support package.
+pay00001-0000-0000-0000-000000000003,1004161,TXN-772190,32000.00,USD,Pending,Pending Approval,Laura Palmer,2026-08-03T09:00:00Z,Server consulting services invoice.
+pay00001-0000-0000-0000-000000000004,1004100,TXN-551020,5400.00,USD,Cancelled,Rejected,James Gordon,2026-07-28T16:45:00Z,Cancelled due to incorrect billing address.

@@ -1,0 +1,6 @@
+ID,customer_ID,name,email,phone,role
+ac100001-0000-0000-0000-000000000001,1004155,Alex Morgan,alex.morgan@techcorp.com,+1-555-0192,IT Director
+ac100001-0000-0000-0000-000000000002,1004155,Sarah Jenkins,sarah.jenkins@techcorp.com,+1-555-0193,System Administrator
+ac100001-0000-0000-0000-000000000003,1004161,David Miller,david.miller@globaltrade.com,+49-89-123456,Procurement Manager
+ac100001-0000-0000-0000-000000000004,1004161,Emma Watson,emma.watson@globaltrade.com,+49-89-654321,Project Lead
+ac100001-0000-0000-0000-000000000005,1004100,Michael Scott,michael.scott@sunshine.com,+1-555-0812,Operations Manager

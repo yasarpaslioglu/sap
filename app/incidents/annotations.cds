@@ -14,6 +14,11 @@ annotate service.Incidents with @(
                 Label : '{i18n>Customer}',
                 Value : customer_ID,
             },
+            {
+                $Type : 'UI.DataField',
+                Label : 'Authorized Contact',
+                Value : contactPerson_ID,
+            },
         ],
     },
     UI.Facets : [
@@ -34,7 +39,19 @@ annotate service.Incidents with @(
                     ID : 'i18nDetails',
                     Target : '@UI.FieldGroup#i18nDetails',
                 },
+                {
+                    $Type : 'UI.ReferenceFacet',
+                    Label : 'Authorized Contact Details',
+                    ID : 'ContactDetailsFacet',
+                    Target : '@UI.FieldGroup#ContactDetails',
+                },
             ],
+        },
+        {
+            $Type : 'UI.ReferenceFacet',
+            Label : 'Payment Approvals',
+            ID : 'PaymentApprovalsFacet',
+            Target : 'customer/payments/@UI.LineItem',
         },
         {
             $Type : 'UI.ReferenceFacet',
@@ -53,6 +70,11 @@ annotate service.Incidents with @(
             $Type : 'UI.DataField',
             Value : customer.name,
             Label : '{i18n>Customer}',
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : contactPerson.name,
+            Label : 'Authorized Contact',
         },
         {
             $Type : 'UI.DataField',
@@ -75,8 +97,8 @@ annotate service.Incidents with @(
             $Type : 'UI.DataField',
             Value : title,
         },
-        TypeName : '',
-        TypeNamePlural : '',
+        TypeName : 'Incident',
+        TypeNamePlural : 'Incidents',
         Description : {
             $Type : 'UI.DataField',
             Value : customer.name,
@@ -93,6 +115,31 @@ annotate service.Incidents with @(
             {
                 $Type : 'UI.DataField',
                 Value : urgency_code,
+            },
+        ],
+    },
+    UI.FieldGroup #ContactDetails : {
+        $Type : 'UI.FieldGroupType',
+        Data : [
+            {
+                $Type : 'UI.DataField',
+                Value : contactPerson.name,
+                Label : 'Name',
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : contactPerson.email,
+                Label : 'Email',
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : contactPerson.phone,
+                Label : 'Phone',
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : contactPerson.role,
+                Label : 'Role',
             },
         ],
     },
@@ -122,7 +169,45 @@ annotate service.Incidents with {
         Common.Text : customer.name,
         Common.Text.@UI.TextArrangement : #TextOnly,
         Common.ValueListWithFixedValues : false,
-    )
+    );
+
+    contactPerson @(
+        Common.Label : 'Authorized Contact',
+        Common.ValueList : {
+            $Type : 'Common.ValueListType',
+            CollectionPath : 'AuthorizedContacts',
+            Parameters : [
+                {
+                    $Type : 'Common.ValueListParameterInOut',
+                    LocalDataProperty : contactPerson_ID,
+                    ValueListProperty : 'ID',
+                },
+                {
+                    $Type : 'Common.ValueListParameterIn',
+                    LocalDataProperty : customer_ID,
+                    ValueListProperty : 'customer_ID',
+                },
+                {
+                    $Type : 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty : 'name',
+                },
+                {
+                    $Type : 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty : 'role',
+                },
+                {
+                    $Type : 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty : 'phone',
+                },
+                {
+                    $Type : 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty : 'email',
+                },
+            ],
+        },
+        Common.Text : contactPerson.name,
+        Common.Text.@UI.TextArrangement : #TextOnly,
+    );
 };
 
 annotate service.Incidents with {
@@ -130,7 +215,7 @@ annotate service.Incidents with {
         Common.Label : '{i18n>Status}',
         Common.ValueListWithFixedValues : true,
         Common.Text : status.descr,
-        )
+    )
 };
 
 annotate service.Incidents with {
@@ -140,6 +225,28 @@ annotate service.Incidents with {
         Common.Text : urgency.descr,
     )
 };
+
+annotate service.AuthorizedContacts with @(
+    UI.LineItem : [
+        { Value : name, Label : 'Name' },
+        { Value : role, Label : 'Role' },
+        { Value : phone, Label : 'Phone' },
+        { Value : email, Label : 'Email' },
+    ]
+);
+
+annotate service.PaymentApprovals with @(
+    UI.LineItem : [
+        { Value : transactionId, Label : 'Transaction ID' },
+        { Value : amount, Label : 'Amount' },
+        { Value : currency, Label : 'Currency' },
+        { Value : paymentStatus, Label : 'Payment Status' },
+        { Value : approvalStatus, Label : 'Approval Status' },
+        { Value : approverName, Label : 'Approver Name' },
+        { Value : approvalDate, Label : 'Approval Date' },
+        { Value : notes, Label : 'Notes' },
+    ]
+);
 
 annotate service.Status with {
     code @Common.Text : descr
@@ -170,8 +277,8 @@ annotate service.Incidents.conversation with @(
 );
 
 annotate service.Incidents with {
-    title    @Common.FieldControl : isClosed;
-    customer @Common.FieldControl : isClosed;
-    urgency  @Common.FieldControl : isClosed;
+    title         @Common.FieldControl : isClosed;
+    customer      @Common.FieldControl : isClosed;
+    contactPerson @Common.FieldControl : isClosed;
+    urgency       @Common.FieldControl : isClosed;
 };
-
